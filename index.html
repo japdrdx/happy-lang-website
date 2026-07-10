@@ -978,6 +978,9 @@
       <h3 id="lifelineTitle">Lifeline Card Application</h3>
       <button type="button" class="modal-close" data-modal-close aria-label="Close modal">×</button>
     </div>
+    <div class="modal-actions">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdTL-AoJ3WVkGMVkLL7b_YWn-Tn1DrGISDDMxQM3fC4vKB-tg/viewform" target="_blank" rel="noopener" class="btn btn-small">Open form</a>
+    </div>
     <div class="modal-body">
       <iframe class="form-frame" title="Lifeline Card application form" src="https://docs.google.com/forms/d/e/1FAIpQLSdTL-AoJ3WVkGMVkLL7b_YWn-Tn1DrGISDDMxQM3fC4vKB-tg/viewform?embedded=true">Loading...</iframe>
     </div>
@@ -989,6 +992,9 @@
     <div class="modal-head">
       <h3 id="yescholarTitle">YEScholar Program Application</h3>
       <button type="button" class="modal-close" data-modal-close aria-label="Close modal">×</button>
+    </div>
+    <div class="modal-actions">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdgphSSB1fzsYB1Ten7ZKw_V8lqW8YG87PgTbDCpKcTObuh9g/viewform" target="_blank" rel="noopener" class="btn btn-small">Open form</a>
     </div>
     <div class="modal-body">
       <iframe class="form-frame" title="YEScholar Program application form" src="https://docs.google.com/forms/d/e/1FAIpQLSdgphSSB1fzsYB1Ten7ZKw_V8lqW8YG87PgTbDCpKcTObuh9g/viewform?embedded=true">Loading...</iframe>
@@ -1014,6 +1020,11 @@
   // Service modals
   const modalTriggers = document.querySelectorAll('[data-modal-target]');
   const modals = document.querySelectorAll('.modal-overlay');
+  const formDirectLinks = {
+    lifelineModal: 'https://docs.google.com/forms/d/e/1FAIpQLSdTL-AoJ3WVkGMVkLL7b_YWn-Tn1DrGISDDMxQM3fC4vKB-tg/viewform',
+    yescholarModal: 'https://docs.google.com/forms/d/e/1FAIpQLSdgphSSB1fzsYB1Ten7ZKw_V8lqW8YG87PgTbDCpKcTObuh9g/viewform'
+  };
+  const isMetaInAppBrowser = /FBAN|FBAV|FB_IAB|Messenger/i.test(navigator.userAgent);
   let activeModalTrigger = null;
   const openModal = (modal, trigger) => {
     if(!modal) return;
@@ -1035,7 +1046,12 @@
   };
   modalTriggers.forEach(trigger => {
     trigger.addEventListener('click', () => {
-      openModal(document.getElementById(trigger.dataset.modalTarget), trigger);
+      const target = trigger.dataset.modalTarget;
+      if(isMetaInAppBrowser && formDirectLinks[target]){
+        window.location.href = formDirectLinks[target];
+        return;
+      }
+      openModal(document.getElementById(target), trigger);
     });
   });
   modals.forEach(modal => {
